@@ -12,7 +12,7 @@ import RxCocoa
 
 class MenuBar:UIView, UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout{
     var menuBarTitleArray = ["すべて","スポーツ","ゲーム","料理","音楽","最近アップロードされた動画","視聴済み"]
-    
+    var selectedIndexPath: IndexPath?
     lazy var collectionView:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -37,7 +37,11 @@ class MenuBar:UIView, UICollectionViewDataSource, UICollectionViewDelegate,UICol
     
         //TODO- NOT Working. 開いたときにcellを選択している状態にする
         let indexPath:IndexPath = NSIndexPath(row: 0, section: 0) as IndexPath
-        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
+        self.selectedIndexPath = indexPath
+        DispatchQueue.main.async {
+           
+            self.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .left)
+        }
         
     }
     
@@ -54,6 +58,10 @@ class MenuBar:UIView, UICollectionViewDataSource, UICollectionViewDelegate,UICol
         cell.setCell(title: menuBarTitleArray[indexPath.row])
         cell.menuTitle.textColor = .black
         cell.menuTitle.backgroundColor = .systemGray5
+        if  selectedIndexPath?.row == indexPath.row{
+                cell.isSelected = true
+        }
+        
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -61,7 +69,10 @@ class MenuBar:UIView, UICollectionViewDataSource, UICollectionViewDelegate,UICol
         return CGSize(width:collectionView.frame.width, height: frame.height)
     }
     
-
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+       selectedIndexPath = indexPath
+        print("tap",selectedIndexPath?.row)
+    }
  
     func addCollectionViewConstaraiont(){
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -70,14 +81,13 @@ class MenuBar:UIView, UICollectionViewDataSource, UICollectionViewDelegate,UICol
         collectionView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0.0).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
+
 }
 
 
 
 class MenuBarCell:BaseCell{
     let disposeBag = DisposeBag()
-    
-
     
     override var isSelected: Bool{
         didSet{
@@ -121,10 +131,7 @@ class MenuBarCell:BaseCell{
         
         menuTitle.text = title
         menuTitle.sizeToFit()
-  
-        
     }
-    
 }
 
 
