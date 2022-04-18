@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = UINavigationController(rootViewController: HomeViewController(collectionViewLayout: layout))
             
             UINavigationBar.appearance().barTintColor = .white
-            UINavigationBar.appearance().shadowImage = UIImage()
+//            UINavigationBar.appearance().shadowImage = UIImage()
 //            UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
             self.window = window
             window.makeKeyAndVisible()

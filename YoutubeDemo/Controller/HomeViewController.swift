@@ -20,8 +20,8 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
         super.viewDidLoad()
         collectionView.backgroundColor = .white
         collectionView.register(videoCell.self, forCellWithReuseIdentifier: "Cell")
-        collectionView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
-        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 40, left: 0, bottom: 0, right: 0)
+        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 40, left: 0, bottom: 0, right: 0)
         
         let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
         titleLabel.font = UIFont(name: "AlNile-Bold", size: 20)
@@ -46,7 +46,7 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-    
+
     
     private func setupMenuBar(){
         view.addSubview(menuBar)
@@ -59,7 +59,7 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
         menuBar.topAnchor.constraint(equalTo: guide.topAnchor, constant: 0.0).isActive = true
         menuBar.leftAnchor.constraint(equalTo: guide.leftAnchor, constant: 0.0).isActive = true
         menuBar.rightAnchor.constraint(equalTo: guide.rightAnchor, constant: 0.0).isActive = true
-        menuBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        menuBar.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
     }
    
