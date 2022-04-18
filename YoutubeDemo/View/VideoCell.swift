@@ -1,86 +1,69 @@
 //
-//  ViewController.swift
+//  VideoCell.swift
 //  YoutubeDemo
 //
-//  Created by Yabuki Shodai on 2022/04/17.
+//  Created by Yabuki Shodai on 2022/04/18.
 //
 
+import Foundation
 import UIKit
 
 
-//
-class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlowLayout {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        print("test")
-        navigationItem.title = "Home"
-        collectionView.backgroundColor = .white
-        collectionView.register(videoCell.self, forCellWithReuseIdentifier: "Cell")
-
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
-    }
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        return cell
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 200)
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-}
-
-
-
-class videoCell:UICollectionViewCell{
-    
+class BaseCell:UICollectionViewCell{
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    func setupViews(){}
+}
+
+class videoCell:BaseCell{
+    
     let thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .blue
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "hikakin")
-        
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         return imageView
     }()
     let userProfileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .green
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        
+        imageView.image = UIImage(named: "hikakinprofile")
+        imageView.layer.cornerRadius = 22
+        imageView.layer.masksToBounds = true
         return imageView
     }()
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.backgroundColor = .purple
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "label"
+        label.text = "好きなことで、生きていく - HIKAKIN - Youtube"
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.numberOfLines = 2
         return label
     }()
     let subTitleText:UILabel = {
         let label = UILabel()
-        label.backgroundColor = .red
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "label"
+        label.text = "HikakinTV・1億 回視聴・10年前"
+        label.textColor = .darkGray
+        label.font = UIFont.systemFont(ofSize: 12)
+        
         return label
     }()
     let separatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .black
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    func setupViews(){
+    override func setupViews(){
         
         addSubview(thumbnailImageView)
         addSubview(separatorView)
@@ -103,7 +86,7 @@ class videoCell:UICollectionViewCell{
             toItem: self,
             attribute: .top,
             multiplier: 1.0,
-            constant: 16.0
+            constant: 0.0
         )
         topConstraint.isActive = true
         
@@ -114,7 +97,7 @@ class videoCell:UICollectionViewCell{
             toItem: self,
             attribute: .right,
             multiplier: 1.0,
-            constant: -16.0)
+            constant: 0.0)
         
         rightConstraint.isActive = true
         
@@ -125,7 +108,7 @@ class videoCell:UICollectionViewCell{
             toItem: self,
             attribute: .left,
             multiplier: 1.0,
-            constant: 16.0)
+            constant: 0.0)
         
         leftConstraint.isActive = true
         
@@ -142,10 +125,10 @@ class videoCell:UICollectionViewCell{
     }
     func setSeparatorViewConstrain(){
 
-        separatorView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 12.0).isActive = true
-        separatorView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -12.0).isActive = true
+        separatorView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0.0).isActive = true
+        separatorView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0.0).isActive = true
         separatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
-        separatorView.heightAnchor.constraint(equalToConstant: 0.8).isActive = true
+        separatorView.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
         
     }
     func setProfileImageConstraint(){
@@ -161,16 +144,13 @@ class videoCell:UICollectionViewCell{
         titleLabel.topAnchor.constraint(equalTo: thumbnailImageView.bottomAnchor, constant: 8.0).isActive = true
         titleLabel.leftAnchor.constraint(equalTo: userProfileImageView.rightAnchor, constant: 8.0).isActive = true
         titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16.0).isActive = true
-        titleLabel.bottomAnchor.constraint(equalTo: subTitleText.topAnchor, constant: -8.0).isActive = true
+        titleLabel.bottomAnchor.constraint(equalTo: subTitleText.topAnchor, constant: 0.0).isActive = true
         
     }
     func setSubTitleTextViewConstraint(){
-        subTitleText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: 8.0).isActive = true
+        subTitleText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: 0.0).isActive = true
         subTitleText.leftAnchor.constraint(equalTo: userProfileImageView.rightAnchor, constant: 8.0).isActive = true
         subTitleText.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16.0).isActive = true
         subTitleText.bottomAnchor.constraint(equalTo: separatorView.topAnchor, constant: -8.0).isActive = true
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

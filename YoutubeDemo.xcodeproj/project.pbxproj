@@ -7,15 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		707FC4B5280D1F5A00B486E9 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707FC4B4280D1F5A00B486E9 /* VideoCell.swift */; };
+		707FC4B9280D207400B486E9 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707FC4B8280D207400B486E9 /* MenuBar.swift */; };
 		709EE9A3280C37EC0020013F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709EE9A2280C37EC0020013F /* AppDelegate.swift */; };
 		709EE9A5280C37EC0020013F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709EE9A4280C37EC0020013F /* SceneDelegate.swift */; };
 		709EE9A7280C37EC0020013F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709EE9A6280C37EC0020013F /* HomeViewController.swift */; };
 		709EE9AA280C37EC0020013F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 709EE9A8280C37EC0020013F /* Main.storyboard */; };
 		709EE9AC280C37EE0020013F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 709EE9AB280C37EE0020013F /* Assets.xcassets */; };
 		709EE9AF280C37EE0020013F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 709EE9AD280C37EE0020013F /* LaunchScreen.storyboard */; };
+		8CA56FD9C2C83E5E5FF7F223 /* Pods_YoutubeDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA87EA3E3E63315413F66E41 /* Pods_YoutubeDemo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		707FC4B4280D1F5A00B486E9 /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
+		707FC4B8280D207400B486E9 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		709EE99F280C37EC0020013F /* YoutubeDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YoutubeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		709EE9A2280C37EC0020013F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		709EE9A4280C37EC0020013F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +29,9 @@
 		709EE9AB280C37EE0020013F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		709EE9AE280C37EE0020013F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		709EE9B0280C37EE0020013F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A3BE76F7A86D70A4AE6DAB70 /* Pods-YoutubeDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YoutubeDemo.debug.xcconfig"; path = "Target Support Files/Pods-YoutubeDemo/Pods-YoutubeDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		A4F78359BB60D9DA393099FC /* Pods-YoutubeDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YoutubeDemo.release.xcconfig"; path = "Target Support Files/Pods-YoutubeDemo/Pods-YoutubeDemo.release.xcconfig"; sourceTree = "<group>"; };
+		CA87EA3E3E63315413F66E41 /* Pods_YoutubeDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YoutubeDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +39,45 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CA56FD9C2C83E5E5FF7F223 /* Pods_YoutubeDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4EC0766F522B86DE2E68BC98 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CA87EA3E3E63315413F66E41 /* Pods_YoutubeDemo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		707FC4B2280D1F2F00B486E9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				707FC4B4280D1F5A00B486E9 /* VideoCell.swift */,
+				707FC4B8280D207400B486E9 /* MenuBar.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		707FC4B3280D1F3500B486E9 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				709EE9A6280C37EC0020013F /* HomeViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		709EE996280C37EC0020013F = {
 			isa = PBXGroup;
 			children = (
 				709EE9A1280C37EC0020013F /* YoutubeDemo */,
 				709EE9A0280C37EC0020013F /* Products */,
+				C517268D9AA1B39A1C2B3C53 /* Pods */,
+				4EC0766F522B86DE2E68BC98 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +92,26 @@
 		709EE9A1280C37EC0020013F /* YoutubeDemo */ = {
 			isa = PBXGroup;
 			children = (
+				707FC4B3280D1F3500B486E9 /* Controller */,
+				707FC4B2280D1F2F00B486E9 /* View */,
 				709EE9A2280C37EC0020013F /* AppDelegate.swift */,
 				709EE9A4280C37EC0020013F /* SceneDelegate.swift */,
-				709EE9A6280C37EC0020013F /* HomeViewController.swift */,
 				709EE9A8280C37EC0020013F /* Main.storyboard */,
 				709EE9AB280C37EE0020013F /* Assets.xcassets */,
 				709EE9AD280C37EE0020013F /* LaunchScreen.storyboard */,
 				709EE9B0280C37EE0020013F /* Info.plist */,
 			);
 			path = YoutubeDemo;
+			sourceTree = "<group>";
+		};
+		C517268D9AA1B39A1C2B3C53 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A3BE76F7A86D70A4AE6DAB70 /* Pods-YoutubeDemo.debug.xcconfig */,
+				A4F78359BB60D9DA393099FC /* Pods-YoutubeDemo.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +121,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 709EE9B3280C37EE0020013F /* Build configuration list for PBXNativeTarget "YoutubeDemo" */;
 			buildPhases = (
+				C7A61DC1195BC697817885FA /* [CP] Check Pods Manifest.lock */,
 				709EE99B280C37EC0020013F /* Sources */,
 				709EE99C280C37EC0020013F /* Frameworks */,
 				709EE99D280C37EC0020013F /* Resources */,
+				7547B24207B52C791F9303B2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -132,14 +181,58 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		7547B24207B52C791F9303B2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-YoutubeDemo/Pods-YoutubeDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-YoutubeDemo/Pods-YoutubeDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-YoutubeDemo/Pods-YoutubeDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C7A61DC1195BC697817885FA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-YoutubeDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		709EE99B280C37EC0020013F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				709EE9A7280C37EC0020013F /* HomeViewController.swift in Sources */,
+				707FC4B5280D1F5A00B486E9 /* VideoCell.swift in Sources */,
 				709EE9A3280C37EC0020013F /* AppDelegate.swift in Sources */,
 				709EE9A5280C37EC0020013F /* SceneDelegate.swift in Sources */,
+				707FC4B9280D207400B486E9 /* MenuBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +376,7 @@
 		};
 		709EE9B4280C37EE0020013F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A3BE76F7A86D70A4AE6DAB70 /* Pods-YoutubeDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -302,6 +396,7 @@
 		};
 		709EE9B5280C37EE0020013F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A4F78359BB60D9DA393099FC /* Pods-YoutubeDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
