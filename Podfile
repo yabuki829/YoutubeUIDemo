@@ -7,7 +7,6 @@ target 'YoutubeDemo' do
 
   # Pods for YoutubeDemo
 
-    pod 'RxSwift', '6.5.0'
-    pod 'RxCocoa', '6.5.0'
+  pod 'Alamofire'
 
 end

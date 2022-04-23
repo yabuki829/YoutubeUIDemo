@@ -6,35 +6,11 @@
 //
 
 import UIKit
-
-
+public  let apiKey = "AIzaSyB7h20I9c00-sdZh8OAYLtyZEVuklcq0EI"
 //
 class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlowLayout {
     
-    var videos:[Video] = {
-        
-        var channel = Channel()
-        channel.name = "HikakinTV HikakinTV HikakinTV HikakinTV HikakinTV "
-        channel.profileImage = "hikakinprofile"
-        
-        var video = Video()
-        video.title = "好きなことで、生きていく - HIKAKIN - Youtube"
-        video.topImageName = "hikakin"
-        video.numberofViews = 123456789
-        video.channel = channel
-        
-        var video2 = Video()
-        video2.title = "YouTubeテーマソング/ヒカキン＆セイキンYouTubeテーマソング/ヒカキン＆セイキンYouTubeテーマソング/ヒカキン＆セイキンYouTubeテーマソング/ヒカキン＆セイキンYouTubeテーマソング/ヒカキン＆セイキンYouTubeテーマソング/ヒカキン＆セイキン"
-        video2.topImageName = "hikakinte-masong"
-        video2.numberofViews = 2345678901234
-        video2.channel = channel
-        
-        
-        
-        return [video,video2,video]
-    }()
-    
-    
+    var videos = [Video]()
     let menuBar:MenuBar = {
         let menubar = MenuBar()
         return menubar
@@ -55,9 +31,11 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
         
         setupMenuBar()
         setupMenuBarItems()
+        fetchVideos()
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+       
         return videos.count
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -73,26 +51,33 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
         return 0
     }
 
-    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("-------------------------------------")
+        print(videos[indexPath.row].title!,videos[indexPath.row].id!)
+    }
     private func setupMenuBar(){
         view.addSubview(menuBar)
         addMenuBarConstraint()
     }
     private func  setupMenuBarItems(){
         let searchImage = UIImage(systemName:"magnifyingglass") //tv  bell
+       
         let searchItem = UIBarButtonItem(image: searchImage, style: .plain, target: self, action: #selector(search))
-        
+
         let tvImage = UIImage(systemName: "tv")
         let tvItem = UIBarButtonItem(image: tvImage, style: .plain, target: self, action: #selector(tv))
         
         let bellImage = UIImage(systemName: "bell")
-
         let bellItem = UIBarButtonItem(image: bellImage, style: .plain, target: self, action: #selector(notifications))
-        navigationItem.rightBarButtonItems = [searchItem,bellItem,tvItem]
+        
+        let accountImage = UIImage(systemName: "person.circle.fill")
+       
+        let accountItem = UIBarButtonItem(image: accountImage, style: .plain, target: self, action: #selector(tapUserIcon))
+        accountItem.tintColor = .link
+        navigationItem.rightBarButtonItems = [accountItem,searchItem,bellItem,tvItem]
         
         navigationController?.navigationBar.tintColor = .darkGray
         
-        navigationItem.leftBarButtonItem = searchItem
         
     }
     
@@ -107,6 +92,7 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
     }
     @objc func tapUserIcon(){
         print("tapUserIcon")
+        handleUserInfo()
     }
     func addMenuBarConstraint(){
        
@@ -118,10 +104,51 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
         menuBar.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
     }
-   
+    
+    func handleUserInfo(){
+        let layout = UICollectionViewFlowLayout()
+        let nav = UINavigationController(rootViewController: UserProfileView(collectionViewLayout: layout))
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
+    }
+    
+    func fetchVideos(){
+//        let url = URL(string:"https://www.googleapis.com/youtube/v3/search?key=AIzaSyB7h20I9c00-sdZh8OAYLtyZEVuklcq0EI&q=DetectiveConan&part=snippet&maxResults=10&order=date")
+        let url = URL(string: "file:///Users/yabukishodai/youtubeDemo.json")
+        var request = URLRequest(url: url!)
         
-     
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: URLRequest(url: url!), completionHandler: { (data, response, error) in
+            if error != nil{
+                    return
+                }
+                do {
+            
+                    let results = try JSONDecoder().decode(Result.self, from: data!)
+                  
+                    for item in results.items{
+                       
+                        var video = Video()
+                        video.id = item.id?.videoId
+                        video.title = item.snippet.title
+                        let channel = Channel(name:item.snippet.channelTitle , profileImage:item.snippet.thumbnails.high.url)
+                        video.date = item.snippet.publishTime
+                        video.thumbnailImage = item.snippet.thumbnails.high.url
+                        video.channel = channel
+                        
+                        self.videos.append(video)
+                    }
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
+                    
+                }catch(let error){
+                        print("動画の取得に失敗しました:",error)
+                    return
+                }
+        })
+        task.resume()
+    }
 }
-
-
 

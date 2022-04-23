@@ -26,13 +26,13 @@ class videoCell:BaseCell{
     var video:Video?{
         didSet{
             titleLabel.text = video?.title
-            topImageView.image = UIImage(named: (video?.topImageName)!)
-            userProfileImageView.image = UIImage(named: (video?.channel?.profileImage)!)
             
-            if let channelName = video?.channel?.name,let numberOfView = video?.numberofViews{
+            setupThumbnailImage()
+            setupProfileImage()
+            if let channelName = video?.channel?.name{
                 let f = NumberFormatter()
                 f.numberStyle = .decimal
-                subTitleText.text = "\(channelName)・\(f.string(from: NSNumber(value: numberOfView))!) 回視聴・10年前"
+                subTitleText.text = "\(channelName)・\(dateformat(string: (video?.date)!))"
             }
             
             //titleの高さを計算する
@@ -41,22 +41,25 @@ class videoCell:BaseCell{
                 let opinions = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
                 
                 let estimatedRect = NSString(string:title).boundingRect(with: size, options: opinions, attributes: nil, context: nil)
-                
+                print("-------------------------")
+                print(estimatedRect.height)
                 if estimatedRect.height > 20 {
+                    print("44",title)
                     titleLabelHightConstraint?.constant = 44
                 }
                 else{
+                    print("20",title)
                     titleLabelHightConstraint?.constant = 20
                 }
             }
             //subtitleの高さを計算する
-            if let name = video?.channel?.name, let numberofView = video?.numberofViews {
+            
+            if let name = video?.channel?.name{
                 let size = CGSize(width: frame.width - 16 - 8 - 44 - 16, height: 10000)
                 let opinions = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
                 
-                let subTitle = "\(name)・\(numberofView) 回視聴・10年前"
+                let subTitle = "\(name)・10万回視聴・10年前"
                 let estimatedRect = NSString(string:subTitle).boundingRect(with: size, options: opinions, attributes: nil, context: nil)
-                
                 if estimatedRect.height > 20 {
                     subTitleLabelHightConstraint?.constant = 44
                 }
@@ -72,11 +75,20 @@ class videoCell:BaseCell{
            
         }
     }
+    func setupThumbnailImage(){
+        if let thumbnailImageURL = video?.thumbnailImage{
+            topImageView.loadImageUsingUrlString(urlString: thumbnailImageURL)
+        }
+    }
+    func setupProfileImage(){
+        if let profileImageURL = video?.channel?.profileImage{
+            userProfileImageView.loadImageUsingUrlString(urlString: profileImageURL)
+        }
+    }
     
     let topImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "hikakin")
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         
@@ -85,16 +97,17 @@ class videoCell:BaseCell{
     let userProfileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "hikakinprofile")
         imageView.layer.cornerRadius = 22
         imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 13)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 2
+//        label.backgroundColor = .red
         return label
     }()
     let subTitleText:UILabel = {
@@ -103,6 +116,7 @@ class videoCell:BaseCell{
         label.textColor = .darkGray
         label.font = UIFont.systemFont(ofSize: 12)
         label.numberOfLines = 2
+//        label.backgroundColor = .blue
         return label
     }()
     let separatorView: UIView = {
@@ -173,5 +187,17 @@ class videoCell:BaseCell{
         separatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0.0).isActive = true
         separatorView.heightAnchor.constraint(equalToConstant: 0.3).isActive = true
         
+    }
+    
+    func dateformat(string:String) -> String {
+        let dateFormatter = DateFormatter()
+        let tempLocale = dateFormatter.locale // save locale temporarily
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let date = dateFormatter.date(from: string)!
+        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss"
+        dateFormatter.locale = tempLocale // reset the locale
+        let dateString = dateFormatter.string(from: date)
+        return dateString
     }
 }

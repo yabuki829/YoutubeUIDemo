@@ -7,8 +7,6 @@
 
 import Foundation
 import UIKit
-import RxSwift
-import RxCocoa
 
 class MenuBar:UIView, UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout{
     var menuBarTitleArray = ["すべて","スポーツ","ゲーム","料理","音楽","最近アップロードされた動画","視聴済み"]
@@ -34,8 +32,6 @@ class MenuBar:UIView, UICollectionViewDataSource, UICollectionViewDelegate,UICol
         
         collectionView.register(MenuBarCell.self, forCellWithReuseIdentifier: "Cell")
         
-    
-        //TODO- NOT Working. 開いたときにcellを選択している状態にする
         let indexPath:IndexPath = NSIndexPath(row: 0, section: 0) as IndexPath
         self.selectedIndexPath = indexPath
         DispatchQueue.main.async {
@@ -87,7 +83,6 @@ class MenuBar:UIView, UICollectionViewDataSource, UICollectionViewDelegate,UICol
 
 
 class MenuBarCell:BaseCell{
-    let disposeBag = DisposeBag()
     
     override var isSelected: Bool{
         didSet{

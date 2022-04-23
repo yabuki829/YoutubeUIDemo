@@ -7,21 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7073CDAE2812787C00233BDC /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7073CDAD2812787C00233BDC /* UserProfileView.swift */; };
+		70789F5D281398B800920E46 /* SettingLancher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70789F5C281398B800920E46 /* SettingLancher.swift */; };
 		707FC4B5280D1F5A00B486E9 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707FC4B4280D1F5A00B486E9 /* VideoCell.swift */; };
 		707FC4B9280D207400B486E9 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707FC4B8280D207400B486E9 /* MenuBar.swift */; };
+		7093E7AC2812F70100F40FC0 /* ChannelViewContriller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7093E7AB2812F70100F40FC0 /* ChannelViewContriller.swift */; };
 		709EE9A3280C37EC0020013F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709EE9A2280C37EC0020013F /* AppDelegate.swift */; };
 		709EE9A5280C37EC0020013F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709EE9A4280C37EC0020013F /* SceneDelegate.swift */; };
 		709EE9A7280C37EC0020013F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709EE9A6280C37EC0020013F /* HomeViewController.swift */; };
 		709EE9AA280C37EC0020013F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 709EE9A8280C37EC0020013F /* Main.storyboard */; };
 		709EE9AC280C37EE0020013F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 709EE9AB280C37EE0020013F /* Assets.xcassets */; };
 		709EE9AF280C37EE0020013F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 709EE9AD280C37EE0020013F /* LaunchScreen.storyboard */; };
+		70AB48562811ACF700087C1F /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AB48552811ACF700087C1F /* extension.swift */; };
 		70B15150280E5DA100309B09 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B1514F280E5DA100309B09 /* Video.swift */; };
 		8CA56FD9C2C83E5E5FF7F223 /* Pods_YoutubeDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA87EA3E3E63315413F66E41 /* Pods_YoutubeDemo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7073CDAD2812787C00233BDC /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
+		70789F5C281398B800920E46 /* SettingLancher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingLancher.swift; sourceTree = "<group>"; };
 		707FC4B4280D1F5A00B486E9 /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		707FC4B8280D207400B486E9 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
+		7093E7AB2812F70100F40FC0 /* ChannelViewContriller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelViewContriller.swift; sourceTree = "<group>"; };
 		709EE99F280C37EC0020013F /* YoutubeDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YoutubeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		709EE9A2280C37EC0020013F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		709EE9A4280C37EC0020013F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -30,6 +37,7 @@
 		709EE9AB280C37EE0020013F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		709EE9AE280C37EE0020013F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		709EE9B0280C37EE0020013F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		70AB48552811ACF700087C1F /* extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
 		70B1514F280E5DA100309B09 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		A3BE76F7A86D70A4AE6DAB70 /* Pods-YoutubeDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YoutubeDemo.debug.xcconfig"; path = "Target Support Files/Pods-YoutubeDemo/Pods-YoutubeDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		A4F78359BB60D9DA393099FC /* Pods-YoutubeDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YoutubeDemo.release.xcconfig"; path = "Target Support Files/Pods-YoutubeDemo/Pods-YoutubeDemo.release.xcconfig"; sourceTree = "<group>"; };
@@ -69,6 +77,9 @@
 			isa = PBXGroup;
 			children = (
 				709EE9A6280C37EC0020013F /* HomeViewController.swift */,
+				7073CDAD2812787C00233BDC /* UserProfileView.swift */,
+				7093E7AB2812F70100F40FC0 /* ChannelViewContriller.swift */,
+				70789F5C281398B800920E46 /* SettingLancher.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -103,6 +114,7 @@
 				709EE9AB280C37EE0020013F /* Assets.xcassets */,
 				709EE9AD280C37EE0020013F /* LaunchScreen.storyboard */,
 				709EE9B0280C37EE0020013F /* Info.plist */,
+				70AB48552811ACF700087C1F /* extension.swift */,
 			);
 			path = YoutubeDemo;
 			sourceTree = "<group>";
@@ -238,8 +250,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70789F5D281398B800920E46 /* SettingLancher.swift in Sources */,
 				709EE9A7280C37EC0020013F /* HomeViewController.swift in Sources */,
+				70AB48562811ACF700087C1F /* extension.swift in Sources */,
 				70B15150280E5DA100309B09 /* Video.swift in Sources */,
+				7093E7AC2812F70100F40FC0 /* ChannelViewContriller.swift in Sources */,
+				7073CDAE2812787C00233BDC /* UserProfileView.swift in Sources */,
 				707FC4B5280D1F5A00B486E9 /* VideoCell.swift in Sources */,
 				709EE9A3280C37EC0020013F /* AppDelegate.swift in Sources */,
 				709EE9A5280C37EC0020013F /* SceneDelegate.swift in Sources */,
