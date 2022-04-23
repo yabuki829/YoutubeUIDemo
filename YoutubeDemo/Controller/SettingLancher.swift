@@ -11,7 +11,7 @@ import UIKit
 
 class SettingLancher: NSObject,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout{
 
-
+    //bottomMenubarをキャンセルのところBottomMenuBarにする
     let backView = UIView()
     let menuItems = [
         menuItem(name: "共有", icon: "arrowshape.turn.up.forward"),

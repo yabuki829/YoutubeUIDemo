@@ -6,11 +6,15 @@
 //
 
 import UIKit
-public  let apiKey = "AIzaSyB7h20I9c00-sdZh8OAYLtyZEVuklcq0EI"
 //
-class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlowLayout {
+class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlowLayout, reloadDelegate {
+ 
+    
     
     var videos = [Video]()
+    
+    var scrollBeginPoint: CGFloat = 0.0
+    
     let menuBar:MenuBar = {
         let menubar = MenuBar()
         return menubar
@@ -35,13 +39,15 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       
-        return videos.count
+        return 20
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let colors:[UIColor] = [.red,.link,.green,.orange,.darkGray,.blue,.purple,.orange,.systemPink]
+      
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! videoCell
-        cell.video = videos[indexPath.row]
+        cell.backgroundColor = colors[menuBar.selectedIndexPath!.row]
         return cell
+       
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let height = (view.frame.width ) * 9 / 16
@@ -50,16 +56,62 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
+    
+    
+    
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollBeginPoint = scrollView.contentOffset.y
+    }
 
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let scrollDiff = scrollBeginPoint - scrollView.contentOffset.y
+        updateNavigationBarHiding(scrollDiff: scrollDiff)
+    }
+    func updateNavigationBarHiding(scrollDiff: CGFloat) {
+         /// スクロール量の閾値
+         // navigationBar表示
+         if scrollDiff > 0 {
+             navigationController?.setNavigationBarHidden(false, animated: true)
+            UIView.animate(withDuration: 1.0) {
+                self.menuBar.transform =   CGAffineTransform(translationX: 0, y: 0)
+               
+            }
+             return
+         }
+         
+         // navigationBar非表示
+         if scrollDiff <= 0 {
+             navigationController?.setNavigationBarHidden(true, animated: true)
+            UIView.animate(withDuration: 1.0) {
+                let statusBarHeight =  self.view.window?.windowScene?.statusBarManager?.statusBarFrame.height
+                self.menuBar.transform =   CGAffineTransform(translationX: 0, y: -(statusBarHeight ?? 0))
+            }
+           
+             return
+         }
+    }
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("-------------------------------------")
         print(videos[indexPath.row].title!,videos[indexPath.row].id!)
+        navigationController?.hidesBarsOnSwipe = false
     }
     private func setupMenuBar(){
+        navigationController?.hidesBarsOnSwipe = true
+        navigationController?.navigationBar.backgroundColor = .white
+        menuBar.delegate = self
         view.addSubview(menuBar)
         addMenuBarConstraint()
     }
+    func reload() {
+        collectionView.reloadData()
+        
+        //ここでfetchVideo
+        print(menuBarTitleArray[menuBar.selectedIndexPath!.row])
+    }
     private func  setupMenuBarItems(){
+        
+        
         let searchImage = UIImage(systemName:"magnifyingglass") //tv  bell
        
         let searchItem = UIBarButtonItem(image: searchImage, style: .plain, target: self, action: #selector(search))
@@ -103,7 +155,9 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
         menuBar.rightAnchor.constraint(equalTo: guide.rightAnchor, constant: 0.0).isActive = true
         menuBar.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
+        
     }
+
     
     func handleUserInfo(){
         let layout = UICollectionViewFlowLayout()

@@ -21,6 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .vertical
             window.rootViewController = UINavigationController(rootViewController: HomeViewController(collectionViewLayout: layout))
             
             UINavigationBar.appearance().barTintColor = .white

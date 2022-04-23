@@ -7,10 +7,14 @@
 
 import Foundation
 import UIKit
+public let menuBarTitleArray = ["すべて","スポーツ","ゲーム","料理","音楽","最近アップロードされた動画","視聴済み"]
 
 class MenuBar:UIView, UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout{
-    var menuBarTitleArray = ["すべて","スポーツ","ゲーム","料理","音楽","最近アップロードされた動画","視聴済み"]
+    
     var selectedIndexPath: IndexPath?
+    
+    
+    
     lazy var collectionView:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -45,8 +49,11 @@ class MenuBar:UIView, UICollectionViewDataSource, UICollectionViewDelegate,UICol
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 7
+        return menuBarTitleArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -66,8 +73,9 @@ class MenuBar:UIView, UICollectionViewDataSource, UICollectionViewDelegate,UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       selectedIndexPath = indexPath
-        print("tap",selectedIndexPath?.row)
+        selectedIndexPath = indexPath
+        collectionView.scrollToItem(at: indexPath, at:.centeredHorizontally, animated: true)
+        delegate?.reload()
     }
  
     func addCollectionViewConstaraiont(){
@@ -77,7 +85,7 @@ class MenuBar:UIView, UICollectionViewDataSource, UICollectionViewDelegate,UICol
         collectionView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0.0).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
-
+    weak var delegate:reloadDelegate? = nil
 }
 
 
@@ -176,6 +184,6 @@ class SSPaddingLabel: UILabel {
 }
 
 
-extension UILabel{
-    
+protocol reloadDelegate: class  {
+    func reload()
 }
