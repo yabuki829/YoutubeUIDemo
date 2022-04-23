@@ -10,11 +10,10 @@ import UIKit
 class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlowLayout, reloadDelegate {
  
     
-    
+    let apikey = ""
     var videos = [Video]()
-    
     var scrollBeginPoint: CGFloat = 0.0
-    
+    fileprivate let refreshCtl = UIRefreshControl()
     let menuBar:MenuBar = {
         let menubar = MenuBar()
         return menubar
@@ -26,7 +25,8 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
         collectionView.register(videoCell.self, forCellWithReuseIdentifier: "Cell")
         collectionView.contentInset = UIEdgeInsets(top: 40, left: 0, bottom: 0, right: 0)
         collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 40, left: 0, bottom: 0, right: 0)
-        
+        collectionView.refreshControl = refreshCtl
+        refreshCtl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
         let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
         titleLabel.font = UIFont(name: "AlNile-Bold", size: 20)
         titleLabel.text = "YouTube"
@@ -35,17 +35,17 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
         
         setupMenuBar()
         setupMenuBarItems()
-        fetchVideos()
+        fetchVideos(word: "Youtube")
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return videos.count
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let colors:[UIColor] = [.red,.link,.green,.orange,.darkGray,.blue,.purple,.orange,.systemPink]
       
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! videoCell
-        cell.backgroundColor = colors[menuBar.selectedIndexPath!.row]
+        cell.video = videos[indexPath.row]
         return cell
        
     }
@@ -103,9 +103,33 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
         view.addSubview(menuBar)
         addMenuBarConstraint()
     }
+    @objc func refresh(sender: UIRefreshControl) {
+        refreshCtl.endRefreshing()
+         //再度動画をよみこむ
+        print("リロード")
+    }
     func reload() {
-        collectionView.reloadData()
         
+        fetchVideos(word: "")
+        collectionView.reloadData()
+        switch menuBar.selectedIndexPath!.row {
+        case 0:
+            fetchVideos(word: "")
+        case 1:
+            fetchVideos(word: "")
+        case 2:
+            fetchVideos(word: "")
+        case 3:
+            fetchVideos(word: "")
+        case 4:
+            fetchVideos(word: "")
+        case 5:
+            fetchVideos(word: "")
+        case 6:
+            fetchVideos(word: "")
+        default:
+            break
+        }
         //ここでfetchVideo
         print(menuBarTitleArray[menuBar.selectedIndexPath!.row])
     }
@@ -166,9 +190,9 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
         self.present(nav, animated: true, completion: nil)
     }
     
-    func fetchVideos(){
-//        let url = URL(string:"https://www.googleapis.com/youtube/v3/search?key=AIzaSyB7h20I9c00-sdZh8OAYLtyZEVuklcq0EI&q=DetectiveConan&part=snippet&maxResults=10&order=date")
-        let url = URL(string: "file:///Users/yabukishodai/youtubeDemo.json")
+    func fetchVideos(word:String){
+        let url = URL(string:"https://www.googleapis.com/youtube/v3/search?key\(apikey)=&q=\(word)&part=snippet&maxResults=10&order=date")
+//        let url = URL(string: "file:///Users/yabukishodai/youtubeDemo.json")
         var request = URLRequest(url: url!)
         
         request.httpMethod = "GET"
