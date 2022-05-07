@@ -16,10 +16,15 @@ struct menuItem{
 
 
 
-class UserProfileView  :UICollectionViewController,UICollectionViewDelegateFlowLayout{
+class UserSettingView  :UICollectionViewController,UICollectionViewDelegateFlowLayout{
 
   
     let settingdata = [
+        //テーマカラー
+        //再生リストを追加する
+        //カテゴリー
+        //お気に入り
+        
         menuItem(name: "チャンネル", icon: "person.crop.square"),
         menuItem(name: "シークレットモード", icon: "star.square"),
         menuItem(name: "アカウントを追加", icon: "person.crop.circle.badge.plus"),

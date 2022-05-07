@@ -1,18 +1,18 @@
-//
-//  ViewController.swift
-//  YoutubeDemo
-//
-//  Created by Yabuki Shodai on 2022/04/17.
-//
-
 import UIKit
-//
-class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlowLayout, reloadDelegate {
- 
+class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlowLayout,moveDelegate {
+
     
-    let apikey = ""
-    var videos = [Video]()
+    let indicator:UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.style = .large
+        indicator.color = UIColor(red: 44/255, green: 169/255, blue: 225/255, alpha: 1)
+        indicator.backgroundColor = .darkGray
+        return indicator
+    }()
+    
     var scrollBeginPoint: CGFloat = 0.0
+    var videos = [Video]()
+    var cvtopConstraint:NSLayoutConstraint?
     fileprivate let refreshCtl = UIRefreshControl()
     let menuBar:MenuBar = {
         let menubar = MenuBar()
@@ -21,35 +21,53 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .systemGray6
         collectionView.register(videoCell.self, forCellWithReuseIdentifier: "Cell")
-        collectionView.contentInset = UIEdgeInsets(top: 40, left: 0, bottom: 0, right: 0)
-        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 40, left: 0, bottom: 0, right: 0)
+        collectionView.register(videoRecomment.self, forCellWithReuseIdentifier: "recomemnt")
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
         collectionView.refreshControl = refreshCtl
         refreshCtl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
+        
+        collectionView.delegate = self
+        indicator.center = view.center
         let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
         titleLabel.font = UIFont(name: "AlNile-Bold", size: 20)
-        titleLabel.text = "YouTube"
+        titleLabel.text = "MusicTube"
         navigationItem.titleView = titleLabel
         navigationController?.navigationBar.barTintColor = UIColor.white
+       
         
-        setupMenuBar()
         setupMenuBarItems()
-        fetchVideos(word: "Youtube")
+       
     }
-
+    override func viewDidAppear(_ animated: Bool) {
+        fetchVideos(word: "")
+    }
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return videos.count
+        return videos.count + 1
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let colors:[UIColor] = [.red,.link,.green,.orange,.darkGray,.blue,.purple,.orange,.systemPink]
+       
+        if indexPath.row == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "recomemnt", for: indexPath) as! videoRecomment
+            cell.delegate = self
+            
+            return cell
+        }
+        else{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! videoCell
+            cell.video = Video()
+            cell.video = videos[indexPath.row - 1]
+            return cell
+        }
       
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! videoCell
-        cell.video = videos[indexPath.row]
-        return cell
        
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        if indexPath.row == 0{
+            return CGSize(width: view.frame.width, height: view.frame.height / 8 + 100 )
+        }
         let height = (view.frame.width ) * 9 / 16
         return CGSize(width: view.frame.width , height: height  + 8 + 8  + 80  )
     }
@@ -57,7 +75,7 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
         return 0
     }
     
-    
+  
     
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         scrollBeginPoint = scrollView.contentOffset.y
@@ -69,8 +87,7 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
         updateNavigationBarHiding(scrollDiff: scrollDiff)
     }
     func updateNavigationBarHiding(scrollDiff: CGFloat) {
-         /// スクロール量の閾値
-         // navigationBar表示
+         // MenuBar表示
          if scrollDiff > 0 {
              navigationController?.setNavigationBarHidden(false, animated: true)
             UIView.animate(withDuration: 1.0) {
@@ -80,7 +97,7 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
              return
          }
          
-         // navigationBar非表示
+         // MenuBar非表示
          if scrollDiff <= 0 {
              navigationController?.setNavigationBarHidden(true, animated: true)
             UIView.animate(withDuration: 1.0) {
@@ -91,66 +108,36 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
              return
          }
     }
+ 
+    let videoLancher = VideoLancher()
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("-------------------------------------")
-        print(videos[indexPath.row].title!,videos[indexPath.row].id!)
-        navigationController?.hidesBarsOnSwipe = false
-    }
-    private func setupMenuBar(){
-        navigationController?.hidesBarsOnSwipe = true
-        navigationController?.navigationBar.backgroundColor = .white
-        menuBar.delegate = self
-        view.addSubview(menuBar)
-        addMenuBarConstraint()
+        if indexPath.row == 0{
+            
+        }
+        else{
+            
+            videoLancher.showSetting(videoID: videos[indexPath.row - 1].id!, videoTitle: videos[indexPath.row - 1].title!)
+            videoLancher.titleLabel.isHidden = true
+            videoLancher.backButton.isHidden = true
+        }
+        
     }
     @objc func refresh(sender: UIRefreshControl) {
         refreshCtl.endRefreshing()
          //再度動画をよみこむ
-        print("リロード")
-    }
-    func reload() {
         
-        fetchVideos(word: "")
-        collectionView.reloadData()
-        switch menuBar.selectedIndexPath!.row {
-        case 0:
-            fetchVideos(word: "")
-        case 1:
-            fetchVideos(word: "")
-        case 2:
-            fetchVideos(word: "")
-        case 3:
-            fetchVideos(word: "")
-        case 4:
-            fetchVideos(word: "")
-        case 5:
-            fetchVideos(word: "")
-        case 6:
-            fetchVideos(word: "")
-        default:
-            break
-        }
-        //ここでfetchVideo
-        print(menuBarTitleArray[menuBar.selectedIndexPath!.row])
+      
     }
     private func  setupMenuBarItems(){
-        
-        
-        let searchImage = UIImage(systemName:"magnifyingglass") //tv  bell
-       
+        let searchImage = UIImage(systemName:"magnifyingglass")
         let searchItem = UIBarButtonItem(image: searchImage, style: .plain, target: self, action: #selector(search))
-
-        let tvImage = UIImage(systemName: "tv")
-        let tvItem = UIBarButtonItem(image: tvImage, style: .plain, target: self, action: #selector(tv))
         
-        let bellImage = UIImage(systemName: "bell")
-        let bellItem = UIBarButtonItem(image: bellImage, style: .plain, target: self, action: #selector(notifications))
         
-        let accountImage = UIImage(systemName: "person.circle.fill")
+        let accountImage = UIImage(systemName: "gearshape")
        
-        let accountItem = UIBarButtonItem(image: accountImage, style: .plain, target: self, action: #selector(tapUserIcon))
-        accountItem.tintColor = .link
-        navigationItem.rightBarButtonItems = [accountItem,searchItem,bellItem,tvItem]
+        let accountItem = UIBarButtonItem(image: accountImage, style: .plain, target: self, action: #selector(tapSettingIcon))
+        
+        navigationItem.rightBarButtonItems = [accountItem,searchItem]
         
         navigationController?.navigationBar.tintColor = .darkGray
         
@@ -158,75 +145,67 @@ class HomeViewController: UICollectionViewController,UICollectionViewDelegateFlo
     }
     
     @objc  func search(){
-        print("Search")
+        let layout = UICollectionViewFlowLayout()
+        let nav = UINavigationController(rootViewController: SearchViewController(collectionViewLayout: layout))
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
+        
     }
-    @objc func tv(){
-        print("TV")
-    }
-    @objc func notifications(){
-        print("Notification")
-    }
-    @objc func tapUserIcon(){
+    @objc func tapSettingIcon(){
         print("tapUserIcon")
         handleUserInfo()
-    }
-    func addMenuBarConstraint(){
-       
-        let guide = self.view.safeAreaLayoutGuide //これを入れたら表示されるようになった
-        menuBar.translatesAutoresizingMaskIntoConstraints = false
-        menuBar.topAnchor.constraint(equalTo: guide.topAnchor, constant: 0.0).isActive = true
-        menuBar.leftAnchor.constraint(equalTo: guide.leftAnchor, constant: 0.0).isActive = true
-        menuBar.rightAnchor.constraint(equalTo: guide.rightAnchor, constant: 0.0).isActive = true
-        menuBar.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        
     }
 
     
     func handleUserInfo(){
         let layout = UICollectionViewFlowLayout()
-        let nav = UINavigationController(rootViewController: UserProfileView(collectionViewLayout: layout))
+        let nav = UINavigationController(rootViewController: UserSettingView(collectionViewLayout: layout))
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true, completion: nil)
     }
     
     func fetchVideos(word:String){
-        let url = URL(string:"https://www.googleapis.com/youtube/v3/search?key\(apikey)=&q=\(word)&part=snippet&maxResults=10&order=date")
-//        let url = URL(string: "file:///Users/yabukishodai/youtubeDemo.json")
-        var request = URLRequest(url: url!)
+        indicator.startAnimating()
+        print("インゲーター")
+        //急上昇を取得する
+        ApiManager.shere.fetchSourVideo(before:todayFormat() , after: beforeFormat()) { (videodata) in
+            // インジケーターを非表示＆アニメーション終了
+            print("終了")
+            self.indicator.stopAnimating()
+            self.videos = videodata
+            self.collectionView.reloadData()
+            self.scrollTop()
+        }
+    }
+    func scrollTop(){
+        let indexPath = IndexPath(row: 0, section: 0)
+        collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
+    }
+    func move(playList: [Video], titleText: String) {
         
-        request.httpMethod = "GET"
-        
-        let task = URLSession.shared.dataTask(with: URLRequest(url: url!), completionHandler: { (data, response, error) in
-            if error != nil{
-                    return
-                }
-                do {
-            
-                    let results = try JSONDecoder().decode(Result.self, from: data!)
-                  
-                    for item in results.items{
-                       
-                        var video = Video()
-                        video.id = item.id?.videoId
-                        video.title = item.snippet.title
-                        let channel = Channel(name:item.snippet.channelTitle , profileImage:item.snippet.thumbnails.high.url)
-                        video.date = item.snippet.publishTime
-                        video.thumbnailImage = item.snippet.thumbnails.high.url
-                        video.channel = channel
-                        
-                        self.videos.append(video)
-                    }
-                    DispatchQueue.main.async {
-                        self.collectionView.reloadData()
-                    }
-                    
-                }catch(let error){
-                        print("動画の取得に失敗しました:",error)
-                    return
-                }
-        })
-        task.resume()
+        let layout = UICollectionViewFlowLayout()
+        let vc = PlayListViewController(collectionViewLayout: layout)
+        vc.playList = playList
+        vc.navigationItem.title = titleText
+        let nav = UINavigationController(rootViewController: vc)
+        self.present(nav, animated: true, completion: nil)
+    }
+    func beforeFormat() -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let modifiedDate = Calendar.current.date(byAdding: .day, value: -21, to: Date())!
+        let formatter = ISO8601DateFormatter()
+        let str = formatter.string(from:modifiedDate)
+        print(str)
+        return str
+    }
+    func todayFormat() -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let formatter = ISO8601DateFormatter()
+        let str = formatter.string(from:Date())
+        print(str)
+        return str
     }
 }
 

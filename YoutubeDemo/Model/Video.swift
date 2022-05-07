@@ -1,9 +1,3 @@
-//
-//  Video.swift
-//  YoutubeDemo
-//
-//  Created by Yabuki Shodai on 2022/04/19.
-//
 
 import UIKit
 
@@ -15,13 +9,14 @@ struct Video{
     var title:String?
     var numberofViews:Int?
     var date:String?
+    var description:String?
     var channel: Channel?
 }
 
 
 struct Channel {
     var name: String?
-    var profileImage: String?
+    var url: String?
 }
 
 

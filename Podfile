@@ -8,5 +8,6 @@ target 'YoutubeDemo' do
   # Pods for YoutubeDemo
 
   pod 'Alamofire'
+  pod "youtube-ios-player-helper"
 
 end

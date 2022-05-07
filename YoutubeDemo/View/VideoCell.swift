@@ -28,7 +28,6 @@ class videoCell:BaseCell{
             titleLabel.text = video?.title
             
             setupThumbnailImage()
-            setupProfileImage()
             if let channelName = video?.channel?.name{
                 let f = NumberFormatter()
                 f.numberStyle = .decimal
@@ -41,14 +40,10 @@ class videoCell:BaseCell{
                 let opinions = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
                 
                 let estimatedRect = NSString(string:title).boundingRect(with: size, options: opinions, attributes: nil, context: nil)
-                print("-------------------------")
-                print(estimatedRect.height)
                 if estimatedRect.height > 20 {
-                    print("44",title)
                     titleLabelHightConstraint?.constant = 44
                 }
                 else{
-                    print("20",title)
                     titleLabelHightConstraint?.constant = 20
                 }
             }
@@ -78,36 +73,26 @@ class videoCell:BaseCell{
     func setupThumbnailImage(){
         if let thumbnailImageURL = video?.thumbnailImage{
             topImageView.loadImageUsingUrlString(urlString: thumbnailImageURL)
+            
         }
     }
-    func setupProfileImage(){
-        if let profileImageURL = video?.channel?.profileImage{
-            userProfileImageView.loadImageUsingUrlString(urlString: profileImageURL)
-        }
-    }
+ 
     
     let topImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
+        imageView.backgroundColor = .systemGray4
         imageView.clipsToBounds = true
         
         return imageView
     }()
-    let userProfileImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.layer.cornerRadius = 22
-        imageView.layer.masksToBounds = true
-        imageView.contentMode = .scaleAspectFill
-        return imageView
-    }()
+   
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 2
-//        label.backgroundColor = .red
         return label
     }()
     let subTitleText:UILabel = {
@@ -116,7 +101,6 @@ class videoCell:BaseCell{
         label.textColor = .darkGray
         label.font = UIFont.systemFont(ofSize: 12)
         label.numberOfLines = 2
-//        label.backgroundColor = .blue
         return label
     }()
     let separatorView: UIView = {
@@ -133,13 +117,11 @@ class videoCell:BaseCell{
         
         addSubview(topImageView)
         addSubview(separatorView)
-        addSubview(userProfileImageView)
         addSubview(titleLabel)
         addSubview(subTitleText)
         
         setthumbnailImageViewConstraint()
         setSeparatorViewConstrain()
-        setProfileImageConstraint()
         setTitleLabelConstraint()
         setSubTitleTextViewConstraint()
         
@@ -151,20 +133,12 @@ class videoCell:BaseCell{
         topImageView.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -8.0).isActive = true
     }
 
-    func setProfileImageConstraint(){
-        
-        userProfileImageView.topAnchor.constraint(equalTo: topImageView.bottomAnchor, constant: 8.0).isActive = true
-        userProfileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16.0).isActive = true
-        userProfileImageView.rightAnchor.constraint(equalTo: titleLabel.leftAnchor, constant:-8.0).isActive = true
-        
-        userProfileImageView.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        userProfileImageView.widthAnchor.constraint(equalToConstant: 44).isActive = true
-    }
+   
     func setTitleLabelConstraint(){
         
         titleLabel.topAnchor.constraint(equalTo: topImageView.bottomAnchor, constant: 8.0).isActive = true
-        titleLabel.leftAnchor.constraint(equalTo: userProfileImageView.rightAnchor, constant: 8.0).isActive = true
-        titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8.0).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16.0).isActive = true
+        titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16.0).isActive = true
         titleLabel.bottomAnchor.constraint(equalTo: subTitleText.topAnchor, constant: 0.0).isActive = true
         
         titleLabelHightConstraint = NSLayoutConstraint.init(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 44.0)
@@ -174,8 +148,8 @@ class videoCell:BaseCell{
     }
     func setSubTitleTextViewConstraint(){
         subTitleText.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: 0.0).isActive = true
-        subTitleText.leftAnchor.constraint(equalTo: userProfileImageView.rightAnchor, constant: 8.0).isActive = true
-        subTitleText.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8.0).isActive = true
+        subTitleText.leftAnchor.constraint(equalTo: self.leftAnchor, constant:16.0).isActive = true
+        subTitleText.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16.0).isActive = true
         subTitleText.bottomAnchor.constraint(equalTo: separatorView.topAnchor, constant: -16.0).isActive = true
         subTitleLabelHightConstraint = subTitleText.heightAnchor.constraint(equalToConstant: 44)
         subTitleLabelHightConstraint?.isActive = true
@@ -195,9 +169,10 @@ class videoCell:BaseCell{
         dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         let date = dateFormatter.date(from: string)!
-        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy年MM月dd日"
         dateFormatter.locale = tempLocale // reset the locale
         let dateString = dateFormatter.string(from: date)
         return dateString
     }
+   
 }
